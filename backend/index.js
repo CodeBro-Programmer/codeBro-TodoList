@@ -28,10 +28,13 @@ app.post("/storeTask",async (req,res)=>{
 
 app.get("/readTask", async (req,res)=>{
     try {
+    let id = req.query.id;
      const items = await fs.readFile("./storage.json", "utf-8");
      let parsedItems = JSON.parse(items);
 
-     res.status(200).json(parsedItems);
+     let personalTask = parsedItems.filter(task => task.userId == id);
+
+     res.status(200).json(personalTask);
 
     } catch (error) {
         console.log("getting data error",error);
@@ -42,11 +45,15 @@ app.get("/readTask", async (req,res)=>{
 
 app.put("/completeTask", async (req,res)=>{
     try {
-     let {index} = req.body;
+     let {task,userId} = req.body;
      const item = await fs.readFile("./storage.json", "utf-8");
      let parsedItem = JSON.parse(item);
 
-     parsedItem[Number(index)].completed = true;
+     parsedItem.forEach(item => { 
+            if(item.userId == userId && item.task == task){
+                item.completed = true;
+             } 
+     });
 
      await fs.writeFile("./storage.json",JSON.stringify(parsedItem,null,2));
     } catch (error) {
@@ -59,9 +66,12 @@ app.put("/completeTask", async (req,res)=>{
 
    app.delete("/deleteTask", async (req,res)=>{
     try {
-     let {index} = req.body;
+     let {task,userId} = req.body;
      const allItem = await fs.readFile("./storage.json", "utf-8");
      let parsedAllItem = JSON.parse(allItem);
+    
+    let index = parsedAllItem.findIndex(item =>
+        item.userId == userId && item.task == task);
 
      parsedAllItem.splice(Number(index),1);
 

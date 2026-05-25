@@ -155,29 +155,29 @@ async function rendData() {
 // COMPLETE TASKS FUNCTIONALITY
  ul.addEventListener('click',(e)=>{
     if(e.target.classList.contains("inProgress")){
-      let box = e.target.parentElement;
-      let index = box.dataset.index;
-      console.log(index);
-      complete(index,rendUserId);
+      let Article = e.target.closest("article");
+      let theTask = Article.querySelector("li").textContent;
+      console.log(theTask);
+      complete(theTask,rendUserId);
     }
 
     if(e.target.classList.contains("delete")){
-      let box = e.target.parentElement;
-      let index = box.dataset.index;
-      console.log(index);
-      del(index,rendUserId);
+      let article = e.target.closest("article");
+      let thetask = article.querySelector("li").textContent;
+      console.log(thetask);
+      del(thetask,rendUserId);
     }
   })
 
 
-async function complete(ind,id) {
+async function complete(task,id) {
   try {
     let res = fetch("http://localhost:5000/completeTask",{
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({index: Number(ind),
+    body: JSON.stringify({task: task,
       userId: id
     })
   });
@@ -192,14 +192,14 @@ async function complete(ind,id) {
 
 // DELETING FUNCTION
 
-async function del(ind,id) {
+async function del(tsk,id) {
   try {
     let res = fetch("http://localhost:5000/deleteTask",{
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({index: Number(ind),
+    body: JSON.stringify({task: tsk,
       userId: id
     })
   });
