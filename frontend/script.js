@@ -41,7 +41,7 @@ let id = "";
 
 function genId(){
 
-  for(let i = 0; i < 5; i++){
+  for(let i = 0; i < 9; i++){
     let randomNum = Math.floor(Math.random()*9);
     
     id += randomNum;
