@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do list</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="heading">
+        <button class="reload">refresh</button>
+    </header>
+    <main class="toDoBody">
+   <section class="container">
+    <h1>To-Do List App</h1>
+
+    <div>
+    <input type="text" id="taskInput" placeholder="enter a task...">
+    <p class="error" style="width: 60%; text-align: left;"></p>
+    </div>
+
+    <button id="addBtn">Add Task</button>
+
+    <div class="loader hidden">
+        <span></span>
+        <span></span>
+         <span></span>
+    </div>
+
+    <ul id="taskList">
+    </ul>
+   </section>
+
+   </main>
+
+   <script src="script.js"></script>
+</body>
+</html>

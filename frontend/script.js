@@ -1,0 +1,170 @@
+let ul = document.getElementById("taskList");
+let Btn = document.getElementById("addBtn");
+let noInput = document.querySelector(".error");
+ let userInput = document.getElementById("taskInput");
+ let refreshBtn = document.querySelector(".reload");
+ let load = document.querySelector(".loader");
+ 
+document.addEventListener("DOMContentLoaded", ()=> {
+  load.classList.remove("hidden");
+
+  setTimeout(()=>{
+    load.classList.add("hidden");
+    rendData();
+      
+  },600);
+ });
+
+refreshBtn.addEventListener('click', ()=> {
+   ul.innerHTML = "";
+  load.classList.remove("hidden");
+
+  setTimeout(()=>{
+    load.classList.add("hidden");
+    rendData();
+      
+  },600);
+ 
+ })
+
+ 
+Btn.addEventListener("click",()=>{
+   if( userInput.value === "")
+    { let response = "*Input a task to continue";
+      noInput.textContent = response; 
+    }
+      else{
+        storeData(userInput.value.trim());
+        rendData();
+   }
+   
+})
+
+// SAVE TASKS
+async function storeData(newTask) {
+  try {
+    let res = await fetch("http://localhost:5000/storeTask",{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({task: newTask,
+                          completed: false
+    })
+  });
+
+  let data = await res.json();
+  console.log(data.stat);
+  
+  } catch (error) {
+    console.error("send data error",error);
+  }
+  
+};
+
+// RENDER TASKS
+async function rendData() {
+  let res = await fetch("http://localhost:5000/readTask");
+  let data = await res.json();
+
+  console.log(data);
+  console.log(typeof data);
+
+  ul.innerHTML = "";
+   
+  data.forEach((todo,index) => {
+    let li = document.createElement("li");
+    li.classList.add("li");
+    li.textContent = todo.task ;
+
+
+    let completeBtn = document.createElement("button");
+
+    completeBtn.textContent = "In progress";
+    completeBtn.classList.add("inProgress");
+
+    let button = document.createElement("button");
+    button.textContent = "delete";
+    button.classList.add("delete");
+
+
+     let box = document.createElement("article");
+      box.classList.add("article");
+
+       box.dataset.index = index;
+
+        if(todo.completed === true){
+      completeBtn.textContent = "Completed";
+      completeBtn.classList.add("completed");
+      box.style.borderBottom = "2px solid limegreen";
+    };
+
+    box.appendChild(li);
+    box.appendChild(completeBtn);
+    box.appendChild(button);
+    ul.appendChild(box);
+    
+
+    userInput.value = "";
+    noInput.textContent = "";
+  
+    
+
+  });
+}
+
+
+// COMPLETE TASKS FUNCTIONALITY
+ ul.addEventListener('click',(e)=>{
+    if(e.target.classList.contains("inProgress")){
+      let box = e.target.parentElement;
+      let index = box.dataset.index;
+      console.log(index);
+      complete(index);
+    }
+
+    if(e.target.classList.contains("delete")){
+      let box = e.target.parentElement;
+      let index = box.dataset.index;
+      console.log(index);
+      del(index);
+    }
+  })
+
+
+async function complete(ind) {
+  try {
+    let res = fetch("http://localhost:5000/completeTask",{
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({index: Number(ind)})
+  });
+
+  rendData();
+  } catch (error) {
+    console.log("edit err",error);
+  }
+  
+};
+
+
+// DELETING FUNCTION
+
+async function del(ind) {
+  try {
+    let res = fetch("http://localhost:5000/deleteTask",{
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({index: Number(ind)})
+  });
+
+  rendData();
+  } catch (error) {
+    console.log("delete err",error);
+  }
+  
+}
