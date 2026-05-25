@@ -4,8 +4,15 @@ let noInput = document.querySelector(".error");
  let userInput = document.getElementById("taskInput");
  let refreshBtn = document.querySelector(".reload");
  let load = document.querySelector(".loader");
+
+ let rendUserId = localStorage.getItem("user-Id");
  
+
 document.addEventListener("DOMContentLoaded", ()=> {
+  // localStorage.removeItem("user-Id");
+
+  checkId();
+
   load.classList.remove("hidden");
 
   setTimeout(()=>{
@@ -25,7 +32,37 @@ refreshBtn.addEventListener('click', ()=> {
       
   },600);
  
- })
+ });
+
+
+
+//  FUNCTION THAT GENERATE USER ID
+let id = "";
+
+function genId(){
+
+  for(let i = 0; i < 5; i++){
+    let randomNum = Math.floor(Math.random()*9);
+    
+    id += randomNum;
+}
+
+return id;
+
+  }
+
+  // FUNCTION THAT CHECKS FOR EXISTING USER ID
+
+  function checkId(){
+  // alert(rendUserId);
+
+    if(!rendUserId){
+        let rendUserId = genId();
+        localStorage.setItem("user-Id",rendUserId);
+        alert( rendUserId);
+    }
+    
+  }
 
  
 Btn.addEventListener("click",()=>{
@@ -34,14 +71,14 @@ Btn.addEventListener("click",()=>{
       noInput.textContent = response; 
     }
       else{
-        storeData(userInput.value.trim());
+        storeData(userInput.value.trim(),rendUserId);
         rendData();
    }
    
 })
 
 // SAVE TASKS
-async function storeData(newTask) {
+async function storeData(newTask,id) {
   try {
     let res = await fetch("http://localhost:5000/storeTask",{
     method: "POST",
@@ -49,7 +86,8 @@ async function storeData(newTask) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({task: newTask,
-                          completed: false
+                          completed: false,
+                          userId: id
     })
   });
 
@@ -64,7 +102,7 @@ async function storeData(newTask) {
 
 // RENDER TASKS
 async function rendData() {
-  let res = await fetch("http://localhost:5000/readTask");
+  let res = await fetch(`http://localhost:5000/readTask?id=${rendUserId}`);
   let data = await res.json();
 
   console.log(data);
@@ -120,26 +158,28 @@ async function rendData() {
       let box = e.target.parentElement;
       let index = box.dataset.index;
       console.log(index);
-      complete(index);
+      complete(index,rendUserId);
     }
 
     if(e.target.classList.contains("delete")){
       let box = e.target.parentElement;
       let index = box.dataset.index;
       console.log(index);
-      del(index);
+      del(index,rendUserId);
     }
   })
 
 
-async function complete(ind) {
+async function complete(ind,id) {
   try {
     let res = fetch("http://localhost:5000/completeTask",{
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({index: Number(ind)})
+    body: JSON.stringify({index: Number(ind),
+      userId: id
+    })
   });
 
   rendData();
@@ -152,14 +192,16 @@ async function complete(ind) {
 
 // DELETING FUNCTION
 
-async function del(ind) {
+async function del(ind,id) {
   try {
     let res = fetch("http://localhost:5000/deleteTask",{
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({index: Number(ind)})
+    body: JSON.stringify({index: Number(ind),
+      userId: id
+    })
   });
 
   rendData();
