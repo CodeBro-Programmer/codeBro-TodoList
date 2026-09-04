@@ -134,6 +134,7 @@ async function rendData() {
         if(todo.completed === true){
       completeBtn.textContent = "Completed";
       completeBtn.classList.add("completed");
+      completeBtn.disabled = true;
       box.style.borderBottom = "2px solid limegreen";
     };
 
