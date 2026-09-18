@@ -19,19 +19,19 @@ body{
     flex-direction: row;
    justify-content: flex-end;
    text-align: center;
+   margin-top: 5px;
 }
 
 .heading button{
-    width: 10%;
     height: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px;
+    padding: 5px 10px;
     font-size: 10px;
     font-weight: bold;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     background-color:#38bdf8 ;
    }
 
@@ -227,4 +227,15 @@ ul{
         width: 60%;
         padding: 7px 5px;
     }
+}
+
+footer{
+    position: absolute;
+    bottom: 10px;
+    left: auto;
+}
+footer p{
+    margin: 10px;
+    font-size: 0.8rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

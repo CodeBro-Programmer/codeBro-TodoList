@@ -24,12 +24,13 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
 refreshBtn.addEventListener('click', ()=> {
    ul.innerHTML = "";
+   refreshBtn.textContent = "Loading...";
   load.classList.remove("hidden");
 
   setTimeout(()=>{
     load.classList.add("hidden");
     rendData();
-      
+    refreshBtn.textContent = "refresh";
   },600);
  
  });
@@ -59,14 +60,16 @@ return id;
     if(!rendUserId){
         let rendUserId = genId();
         localStorage.setItem("user-Id",rendUserId);
-        alert( rendUserId);
+        alert( `Welcome to codebro's fullStack Todo List App 😁`);
+        alert(`Your Id is ${rendUserId}`);
+        alert(`Add a task to get started ✅`);
     }
     
   }
 
  
 Btn.addEventListener("click",()=>{
-   if( userInput.value === "")
+   if( userInput.value.trim() === "")
     { let response = "*Input a task to continue";
       noInput.textContent = response; 
     }
