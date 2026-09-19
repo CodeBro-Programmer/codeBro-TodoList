@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
   },600);
  });
 
- 
+
 
 refreshBtn.addEventListener('click', ()=> {
    ul.innerHTML = "";
@@ -155,10 +155,6 @@ async function rendData() {
     
 
   });
-
-   if(load){
-    load.classList.remove("hidden");
-  }
 }
 
 
