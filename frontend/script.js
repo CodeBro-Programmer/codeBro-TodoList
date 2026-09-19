@@ -83,7 +83,7 @@ Btn.addEventListener("click",()=>{
 // SAVE TASKS
 async function storeData(newTask,id) {
   try {
-    let res = await fetch("http://localhost:5000/storeTask",{
+    let res = await fetch(`${baseURL}/storeTask`,{
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -105,7 +105,7 @@ async function storeData(newTask,id) {
 
 // RENDER TASKS
 async function rendData() {
-  let res = await fetch(`http://localhost:5000/readTask?id=${rendUserId}`);
+  let res = await fetch(`${baseURL}/readTask?id=${rendUserId}`);
   let data = await res.json();
 
   console.log(data);
@@ -176,7 +176,7 @@ async function rendData() {
 
 async function complete(task,id) {
   try {
-    let res = fetch("http://localhost:5000/completeTask",{
+    let res = fetch(`${baseURL}/completeTask`,{
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -198,7 +198,7 @@ async function complete(task,id) {
 
 async function del(tsk,id) {
   try {
-    let res = fetch("http://localhost:5000/deleteTask",{
+    let res = fetch(`${baseURL}/deleteTask`,{
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
