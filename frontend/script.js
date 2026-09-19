@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
   },600);
  });
 
+ 
+
 refreshBtn.addEventListener('click', ()=> {
    ul.innerHTML = "";
    refreshBtn.textContent = "Loading...";
@@ -111,9 +113,7 @@ async function rendData() {
 
   ul.innerHTML = "";
 
-  if(load){
-    load.classList.remove("hidden");
-  }
+ 
    
   data.forEach((todo,index) => {
     let li = document.createElement("li");
@@ -155,6 +155,10 @@ async function rendData() {
     
 
   });
+
+   if(load){
+    load.classList.remove("hidden");
+  }
 }
 
 
@@ -173,7 +177,7 @@ async function rendData() {
       console.log(thetask);
       del(thetask,rendUserId);
     }
-  })
+  });
 
 
 async function complete(task,id) {
