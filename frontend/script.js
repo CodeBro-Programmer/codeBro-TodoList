@@ -109,9 +109,9 @@ async function rendData() {
   let res = await fetch(`${baseURL}/readTask?id=${rendUserId}`);
   let data = await res.json();
 
-  load.classList.remove("hidden");
-
   ul.innerHTML = "";
+
+  load.classList.remove("hidden");
    
   data.forEach((todo,index) => {
     let li = document.createElement("li");
