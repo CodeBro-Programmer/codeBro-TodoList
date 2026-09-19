@@ -73,8 +73,8 @@ Btn.addEventListener("click",()=>{
       noInput.textContent = response; 
     }
       else{
+        load.classList.add("hidden");
         storeData(userInput.value.trim(),rendUserId);
-        rendData();
    }
    
 })
@@ -95,6 +95,8 @@ async function storeData(newTask,id) {
 
   let data = await res.json();
   console.log(data.stat);
+
+  rendData();
   
   } catch (error) {
     console.error("send data error",error);
@@ -108,6 +110,10 @@ async function rendData() {
   let data = await res.json();
 
   ul.innerHTML = "";
+
+  if(load){
+    load.classList.remove("hidden");
+  }
    
   data.forEach((todo,index) => {
     let li = document.createElement("li");
