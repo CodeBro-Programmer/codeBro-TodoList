@@ -74,6 +74,7 @@ Btn.addEventListener("click",()=>{
       noInput.textContent = response; 
     }
       else{
+        load.classList.remove("hidden");
         storeData(userInput.value.trim(),rendUserId);
         rendData();
    }
@@ -108,8 +109,7 @@ async function rendData() {
   let res = await fetch(`${baseURL}/readTask?id=${rendUserId}`);
   let data = await res.json();
 
-  console.log(data);
-  console.log(typeof data);
+  load.classList.remove("hidden");
 
   ul.innerHTML = "";
    
@@ -175,6 +175,7 @@ async function rendData() {
 
 
 async function complete(task,id) {
+  load.classList.add("hidden");
   try {
     let res = fetch(`${baseURL}/completeTask`,{
     method: "PUT",
@@ -197,6 +198,7 @@ async function complete(task,id) {
 // DELETING FUNCTION
 
 async function del(tsk,id) {
+  load.classList.add("hidden");
   try {
     let res = fetch(`${baseURL}/deleteTask`,{
     method: "DELETE",
