@@ -28,7 +28,6 @@ refreshBtn.addEventListener('click', ()=> {
   load.classList.remove("hidden");
 
   setTimeout(()=>{
-    load.classList.add("hidden");
     rendData();
     refreshBtn.textContent = "refresh";
   },600);
@@ -82,7 +81,6 @@ Btn.addEventListener("click",()=>{
 
 // SAVE TASKS
 async function storeData(newTask,id) {
-  load.classList.add("hidden");
   try {
     let res = await fetch(`${baseURL}/storeTask`,{
     method: "POST",
@@ -110,8 +108,6 @@ async function rendData() {
   let data = await res.json();
 
   ul.innerHTML = "";
-
-  load.classList.remove("hidden");
    
   data.forEach((todo,index) => {
     let li = document.createElement("li");
