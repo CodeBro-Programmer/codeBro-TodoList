@@ -74,7 +74,6 @@ Btn.addEventListener("click",()=>{
       noInput.textContent = response; 
     }
       else{
-        load.classList.remove("hidden");
         storeData(userInput.value.trim(),rendUserId);
         rendData();
    }
@@ -83,6 +82,7 @@ Btn.addEventListener("click",()=>{
 
 // SAVE TASKS
 async function storeData(newTask,id) {
+  load.classList.add("hidden");
   try {
     let res = await fetch(`${baseURL}/storeTask`,{
     method: "POST",
